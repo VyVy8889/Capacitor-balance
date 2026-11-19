@@ -1,246 +1,50 @@
-<!-- ... existing code ... -->
-                    <h1 class="text-base sm:text-xl font-bold tracking-tight text-white">
-                        Cân bằng Điện dung Giàn tụ 6 Nhánh (Vế Trái / Vế Phải)
-                    </h1>
-                    <p class="text-xs text-slate-400">
-                        Tối ưu độc lập 3 nhánh Vế Trái (N<sub>L</sub>), 3 nhánh Vế Phải (N<sub>R</sub>) &amp; đồng bộ cân bằng 3 Pha (A, B, C)
-                    </p>
-                </div>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cân bằng Điện dung Giàn tụ 6 Nhánh (Vế Trái / Vế Phải)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans antialiased">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 mb-6 shadow-xl">
+            <h1 class="text-2xl font-bold text-cyan-400 mb-2">Cân bằng Điện dung Giàn tụ 6 Nhánh</h1>
+            <p class="text-slate-300 text-sm mb-4">
+                Tối ưu độc lập 3 nhánh Vế Trái (N<sub>L</sub>), 3 nhánh Vế Phải (N<sub>R</sub>) & đồng bộ cân bằng 3 Pha (A, B, C) cho giàn tụ bù trung/cao thế.
+            </p>
+            <div class="inline-flex items-center bg-cyan-950/60 border border-cyan-800/60 rounded-full px-3 py-1 text-xs text-cyan-300 font-medium">
+                ⚡ Sơ đồ 6 nhánh bất đối xứng 2 vế
             </div>
-<!-- ... existing code ... -->
-                            <button type="button" onclick="applyPreset(4, 4)" id="preset-4-4"
-                                class="preset-btn text-left px-3 py-2 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition text-xs">
-                                <div class="font-bold text-slate-800">4 Trái - 4 Phải</div>
-                                <div class="text-[11px] text-slate-500">Tổng: 24 bình</div>
-                            </button>
-                            <button type="button" onclick="applyPreset(8, 8)" id="preset-8-8"
-                                class="preset-btn text-left px-3 py-2 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition text-xs">
-                                <div class="font-bold text-slate-800">8 Trái - 8 Phải</div>
-                                <div class="text-[11px] text-slate-500">Tổng: 48 bình</div>
-                            </button>
-                        </div>
-                    </div>
+        </div>
 
-                    <!-- Manual N_L and N_R Inputs -->
-                    <div class="grid grid-cols-2 gap-3 pt-1">
-                        <div class="bg-indigo-50/50 border border-indigo-200/80 rounded-xl p-3">
-                            <label for="input-nl" class="block text-xs font-bold text-indigo-900 mb-1">
-                                Vế Trái (N<sub>L</sub> bình/nhánh)
-                            </label>
-                            <div class="flex items-center gap-2">
-                                <input type="number" id="input-nl" min="1" max="50" value="2" oninput="onConfigChange()"
-                                    class="w-full rounded-lg border border-indigo-300 bg-white px-3 py-2 text-base font-bold text-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            </div>
-                            <div class="text-[11px] text-indigo-700 mt-1.5 font-medium">
-                                3 nhánh Trái = <strong id="total-left-req">6</strong> bình
-                            </div>
-                        </div>
+        <!-- Cấu hình số bình -->
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 mb-6 shadow-xl">
+            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <span class="bg-cyan-500 text-slate-950 rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold">1</span>
+                Cấu hình số bình tụ
+            </h2>
 
-                        <div class="bg-teal-50/50 border border-teal-200/80 rounded-xl p-3">
-                            <label for="input-nr" class="block text-xs font-bold text-teal-900 mb-1">
-                                Vế Phải (N<sub>R</sub> bình/nhánh)
-                            </label>
-                            <div class="flex items-center gap-2">
-                                <input type="number" id="input-nr" min="1" max="50" value="3" oninput="onConfigChange()"
-                                    class="w-full rounded-lg border border-teal-300 bg-white px-3 py-2 text-base font-bold text-teal-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
-                            </div>
-                            <div class="text-[11px] text-teal-700 mt-1.5 font-medium">
-                                3 nhánh Phải = <strong id="total-right-req">9</strong> bình
-                            </div>
-                        </div>
-                    </div>
+            <!-- Preset nhanh -->
+            <div class="flex flex-wrap gap-2 mb-4">
+                <button onclick="setPreset(2, 3)" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-xs font-medium rounded-lg border border-slate-600 transition">
+                    2 Trái - 3 Phải (Tổng: 15 bình)
+                </button>
+                <button onclick="setPreset(4, 4)" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-xs font-medium rounded-lg border border-slate-600 transition">
+                    4 Trái - 4 Phải (Tổng: 24 bình)
+                </button>
+                <button onclick="setPreset(8, 8)" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-xs font-bold rounded-lg border border-cyan-500 transition text-white">
+                    8 Trái - 8 Phải (Tổng: 48 bình)
+                </button>
+            </div>
 
-                    <!-- Summary Comparison Bar -->
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
-                            <div class="text-[11px] font-medium text-slate-500">Yêu cầu (3N<sub>L</sub> + 3N<sub>R</sub>)</div>
-                            <div class="mt-0.5 text-xl font-extrabold text-slate-800">
-                                <span id="required-total-count">15</span> <span class="text-xs font-normal text-slate-500">bình</span>
-                            </div>
-                        </div>
-                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
-                            <div class="text-[11px] font-medium text-slate-500">Đã nhập hiện tại</div>
-                            <div class="mt-0.5 text-xl font-extrabold text-blue-600">
-                                <span id="detected-total-count">0</span> <span class="text-xs font-normal text-slate-500">bình</span>
-                            </div>
-                        </div>
-                    </div>
-<!-- ... existing code ... -->
-                    <textarea id="capacitor-input" rows="10"
-                        class="w-full flex-grow rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 p-3.5 text-sm font-mono text-slate-800 bg-slate-50/60 transition resize-y"
-                        placeholder="Dán trực tiếp cột số liệu từ Excel hoặc nhập từng dòng...&#10;Ví dụ hỗ trợ mọi định dạng:&#10;Tụ 01: 10.568&#10;Bình 02 - 10,542&#10;3   10.581&#10;10.550"></textarea>
-<!-- ... existing code ... -->
-        function clearInput() {
-            document.getElementById('capacitor-input').value = '';
-            document.getElementById('results-section').classList.add('hidden');
-            currentSolution = null;
-            parseAndValidate(false);
-        }
-
-        /**
-         * Bộ đọc dữ liệu thông minh (Smart Parser):
-         * - Hỗ trợ: "Tụ 38: 10.568", "Bình 1 - 10,54", "C01 = 4.12 uF"
-         * - Hỗ trợ copy 2 cột từ Excel: "1   10.568" hoặc "38. 10.568"
-         * - Hỗ trợ danh sách chỉ có số ngăn cách bằng xuống dòng, dấu phẩy, chấm phẩy hoặc tab
-         */
-        function parseAndValidate(autoRun = true) {
-            const inputEl = document.getElementById('capacitor-input');
-            const rawText = inputEl ? inputEl.value.trim() : '';
-            const cfg = getConfig();
-            parsedCapacitors = [];
-
-            if (rawText.length > 0) {
-                const lines = rawText.split(/\r?\n/);
-                let autoIdx = 1;
-
-                for (let line of lines) {
-                    const trimmed = line.trim();
-                    if (!trimmed) continue;
-
-                    // 1. Dạng có dấu phân cách nhãn: ":", "=", " - ", " – ", "—"
-                    const kvMatch = trimmed.match(/^(.+?)\s*(?::|=|\s+[-–—]\s+)\s*([+-]?\d+(?:[.,]\d+)?)\s*(?:uF|µF|μF)?\s*$/i);
-                    if (kvMatch) {
-                        const label = kvMatch[1].trim();
-                        const val = parseFloat(kvMatch[2].replace(',', '.'));
-                        if (!isNaN(val) && val > 0) {
-                            parsedCapacitors.push({ id: autoIdx++, label, value: val });
-                        }
-                        continue;
-                    }
-
-                    // 2. Dạng 2 cột copy từ Excel (STT/Mã + Giá trị điện dung) ngăn cách bởi Tab hoặc nhiều khoảng trắng
-                    const colMatch = trimmed.match(/^([^\t\s]+(?:\s+[^\t\s]+)?)\s*(?:\t|\s{2,})\s*([+-]?\d+(?:[.,]\d+)?)\s*(?:uF|µF|μF)?\s*$/i);
-                    if (colMatch) {
-                        const col1 = colMatch[1].trim();
-                        const val = parseFloat(colMatch[2].replace(',', '.'));
-                        if (!isNaN(val) && val > 0) {
-                            const label = /^\d+\.?$/.test(col1) ? `Tụ ${col1.replace('.', '')}` : col1;
-                            parsedCapacitors.push({ id: autoIdx++, label, value: val });
-                        }
-                        continue;
-                    }
-
-                    // 3. Dạng số thứ tự đứng đầu: "1. 10.568" hoặc "38) 10.568"
-                    const numberedMatch = trimmed.match(/^(\d+)[.)]\s+([+-]?\d+(?:[.,]\d+)?)\s*(?:uF|µF|μF)?\s*$/i);
-                    if (numberedMatch) {
-                        const val = parseFloat(numberedMatch[2].replace(',', '.'));
-                        if (!isNaN(val) && val > 0) {
-                            parsedCapacitors.push({ id: autoIdx++, label: `Tụ ${numberedMatch[1]}`, value: val });
-                        }
-                        continue;
-                    }
-
-                    // 4. Dạng chỉ chứa giá trị số (1 số trên dòng hoặc nhiều số cách nhau bởi tab, chấm phẩy, khoảng trắng)
-                    let tokens = [];
-                    if (trimmed.includes(';') || trimmed.includes('\t') || /\s+/.test(trimmed)) {
-                        tokens = trimmed.split(/[;\t\s]+/);
-                    } else if (trimmed.includes(',')) {
-                        const commaCount = (trimmed.match(/,/g) || []).length;
-                        if (commaCount > 1 || trimmed.includes('.')) {
-                            tokens = trimmed.split(',');
-                        } else {
-                            tokens = [trimmed];
-                        }
-                    } else {
-                        tokens = [trimmed];
-                    }
-
-                    for (let token of tokens) {
-                        const cleanNumStr = token.replace(/uF|µF|μF/gi, '').trim().replace(',', '.');
-                        if (!cleanNumStr) continue;
-                        if (/^[+-]?\d+(?:\.\d+)?$/.test(cleanNumStr)) {
-                            const val = parseFloat(cleanNumStr);
-                            if (!isNaN(val) && val > 0) {
-                                const code = autoIdx < 10 ? `Tụ 0${autoIdx}` : `Tụ ${autoIdx}`;
-                                parsedCapacitors.push({ id: autoIdx++, label: code, value: val });
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Cập nhật giao diện đếm và trạng thái nút Tính toán
-            const count = parsedCapacitors.length;
-            const detectedEl = document.getElementById('detected-total-count');
-            const boxEl = document.getElementById('validation-box');
-            const iconEl = document.getElementById('validation-icon');
-            const msgEl = document.getElementById('validation-message');
-            const btnEl = document.getElementById('calculate-btn');
-
-            detectedEl.textContent = count;
-
-            if (count === 0) {
-                detectedEl.className = 'text-blue-600';
-                boxEl.className = 'rounded-xl p-3 border text-xs flex items-start gap-2.5 bg-slate-50 border-slate-200 text-slate-600';
-                iconEl.className = 'fa-solid fa-circle-info text-slate-400 mt-0.5 text-sm';
-                msgEl.innerHTML = `Đang chờ nhập danh sách giá trị điện dung đo được (cần đủ <strong>${cfg.totalReq} bình</strong>)...`;
-                btnEl.disabled = true;
-            } else if (count === cfg.totalReq) {
-                detectedEl.className = 'text-emerald-600';
-                boxEl.className = 'rounded-xl p-3 border text-xs flex items-start gap-2.5 bg-emerald-50 border-emerald-200 text-emerald-800';
-                iconEl.className = 'fa-solid fa-circle-check text-emerald-600 mt-0.5 text-sm';
-                msgEl.innerHTML = `<strong>Đã nhận diện đủ ${count}/${cfg.totalReq} bình tụ!</strong> Sẵn sàng phân bổ ${cfg.nl} bình/nhánh Trái và ${cfg.nr} bình/nhánh Phải.`;
-                btnEl.disabled = false;
-
-                // Tự động chạy tính toán ngay khi vừa nhập/dán đủ số lượng yêu cầu
-                if (autoRun) {
-                    runOptimization(true);
-                }
-            } else if (count < cfg.totalReq) {
-                const missing = cfg.totalReq - count;
-                detectedEl.className = 'text-amber-600';
-                boxEl.className = 'rounded-xl p-3 border text-xs flex items-start gap-2.5 bg-amber-50 border-amber-300 text-amber-900';
-                iconEl.className = 'fa-solid fa-triangle-exclamation text-amber-600 mt-0.5 text-sm';
-                msgEl.innerHTML = `Đã nhận diện <strong>${count} bình</strong>. Còn thiếu <strong>${missing} bình</strong> nữa để đủ <strong>${cfg.totalReq} bình</strong> (${cfg.nl} Trái - ${cfg.nr} Phải).`;
-                btnEl.disabled = true;
-            } else {
-                const extra = count - cfg.totalReq;
-                detectedEl.className = 'text-rose-600';
-                boxEl.className = 'rounded-xl p-3 border text-xs flex items-start gap-2.5 bg-rose-50 border-rose-300 text-rose-900';
-                iconEl.className = 'fa-solid fa-circle-xmark text-rose-600 mt-0.5 text-sm';
-                msgEl.innerHTML = `Đã nhận diện <strong>${count} bình</strong> (đang dư <strong>${extra} bình</strong> so với yêu cầu ${cfg.totalReq} bình). Vui lòng xóa bớt ${extra} bình hoặc điều chỉnh số bình mỗi nhánh.`;
-                btnEl.disabled = true;
-            }
-        }
-<!-- ... existing code ... -->
-        /**
-         * Kích hoạt tính toán cân bằng
-         */
-        function runOptimization(isAuto = false) {
-            const cfg = getConfig();
-            if (parsedCapacitors.length !== cfg.totalReq) return;
-
-            currentSolution = optimizeLeftRight(parsedCapacitors, cfg.nl, cfg.nr, 70);
-            renderResults();
-
-            const resSec = document.getElementById('results-section');
-            resSec.classList.remove('hidden');
-            if (!isAuto) {
-                resSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-            showToast(`Đã cân bằng tối ưu 2 Vế & 3 Pha (${cfg.nl} Trái - ${cfg.nr} Phải)!`, 'success');
-        }
-<!-- ... existing code ... -->
-        // Lắng nghe đầy đủ sự kiện nhập/dán trên điện thoại (iOS/Android) và máy tính
-        function bindInputEvents() {
-            const inputEl = document.getElementById('capacitor-input');
-            if (!inputEl) return;
-
-            ['input', 'change', 'keyup', 'blur'].forEach(evt => {
-                inputEl.addEventListener(evt, () => parseAndValidate(true));
-            });
-
-            inputEl.addEventListener('paste', () => {
-                setTimeout(() => parseAndValidate(true), 50);
-            });
-        }
-
-        // Khởi tạo mặc định cấu hình 2 Trái - 3 Phải (15 bình) và chạy thử mẫu khi tải trang
-        window.onload = function() {
-            bindInputEvents();
-            applyPreset(2, 3);
-            generateMatchingSample(4.10);
-        };
-    </script>
-</body>
-</html>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Số bình mỗi nhánh Vế Trái (N<sub>L</sub>)</label>
+                    <input type="number" id="nl-input" value="8" min="1" max="50" oninput="updateRequirement()"
+                        class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white font-semibold focus:outline-none focus:border-cyan-500">
+                    <span id="nl-total-desc" class="text-xs text-slate-400 mt-1 block">3 nhánh Trái = 24 bình</span>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Số bình mỗi nhánh V
