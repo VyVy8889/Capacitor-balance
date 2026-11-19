@@ -8,36 +8,13 @@
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen font-sans antialiased">
     <div class="max-w-4xl mx-auto px-4 py-8">
-        <!-- Header -->
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 mb-6 shadow-xl">
-            <h1 class="text-2xl font-bold text-cyan-400 mb-2">Cân bằng Điện dung Giàn tụ 6 Nhánh</h1>
-            <p class="text-slate-300 text-sm mb-4">
-                Tối ưu độc lập 3 nhánh Vế Trái (N<sub>L</sub>), 3 nhánh Vế Phải (N<sub>R</sub>) & đồng bộ cân bằng 3 Pha (A, B, C) cho giàn tụ bù trung/cao thế.
-            </p>
-            <div class="inline-flex items-center bg-cyan-950/60 border border-cyan-800/60 rounded-full px-3 py-1 text-xs text-cyan-300 font-medium">
-                ⚡ Sơ đồ 6 nhánh bất đối xứng 2 vế
-            </div>
-        </div>
-
+        
         <!-- Cấu hình số bình -->
         <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 mb-6 shadow-xl">
             <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <span class="bg-cyan-500 text-slate-950 rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold">1</span>
                 Cấu hình số bình tụ
             </h2>
-
-            <!-- Preset nhanh -->
-            <div class="flex flex-wrap gap-2 mb-4">
-                <button onclick="setPreset(2, 3)" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-xs font-medium rounded-lg border border-slate-600 transition">
-                    2 Trái - 3 Phải (Tổng: 15 bình)
-                </button>
-                <button onclick="setPreset(4, 4)" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-xs font-medium rounded-lg border border-slate-600 transition">
-                    4 Trái - 4 Phải (Tổng: 24 bình)
-                </button>
-                <button onclick="setPreset(8, 8)" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-xs font-bold rounded-lg border border-cyan-500 transition text-white">
-                    8 Trái - 8 Phải (Tổng: 48 bình)
-                </button>
-            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
@@ -77,14 +54,8 @@
             </p>
 
             <div class="flex flex-wrap gap-2 mb-3">
-                <button onclick="loadSample(48, 4.1)" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-xs font-medium rounded-lg border border-slate-600 transition">
-                    🧪 Mẫu ~4.1 &mu;F (48 bình)
-                </button>
-                <button onclick="loadSample(48, 10.5)" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-xs font-medium rounded-lg border border-slate-600 transition">
-                    🧪 Mẫu ~10.5 &mu;F (48 bình)
-                </button>
                 <button onclick="clearInput()" class="px-3 py-1.5 bg-rose-950/60 hover:bg-rose-900/60 text-rose-300 text-xs font-medium rounded-lg border border-rose-800/60 transition">
-                    🗑️ Xóa
+                    🗑️ Xóa nội dung
                 </button>
             </div>
 
@@ -165,12 +136,6 @@
     <script>
         let parsedCaps = [];
 
-        function setPreset(nl, nr) {
-            document.getElementById('nl-input').value = nl;
-            document.getElementById('nr-input').value = nr;
-            updateRequirement();
-        }
-
         function updateRequirement() {
             const nl = parseInt(document.getElementById('nl-input').value) || 0;
             const nr = parseInt(document.getElementById('nr-input').value) || 0;
@@ -179,16 +144,6 @@
             document.getElementById('nr-total-desc').innerText = `3 nhánh Phải = ${3 * nr} bình`;
             document.getElementById('required-count').innerText = `${req} bình`;
             parseAndValidate(false);
-        }
-
-        function loadSample(total, baseVal) {
-            let lines = [];
-            for (let i = 1; i <= total; i++) {
-                let val = (baseVal + (Math.sin(i * 99) * 0.15) + (Math.random() * 0.04 - 0.02)).toFixed(3);
-                lines.push(`Tụ ${i < 10 ? '0' + i : i}: ${val}`);
-            }
-            document.getElementById('capacitor-input').value = lines.join('\n');
-            parseAndValidate(true);
         }
 
         function clearInput() {
@@ -210,12 +165,9 @@
             for (let line of lines) {
                 line = line.trim();
                 if (!line) continue;
-                // Thay thế dấu phẩy thập phân thành chấm
                 let cleanLine = line.replace(',', '.');
-                // Trích xuất số thực trong dòng
                 let matches = cleanLine.match(/[-+]?[0-9]*\.?[0-9]+/g);
                 if (matches) {
-                    // Lấy số cuối cùng trong dòng làm giá trị điện dung (tránh nhầm số thứ tự tụ ở đầu dòng)
                     let val = parseFloat(matches[matches.length - 1]);
                     if (!isNaN(val) && val > 0) {
                         parsedCaps.push({ id: idCounter++, val: val });
@@ -236,7 +188,6 @@
             }
         }
 
-        // Lắng nghe sự kiện input & paste trên di động
         document.getElementById('capacitor-input').addEventListener('input', () => parseAndValidate(false));
         document.getElementById('capacitor-input').addEventListener('paste', () => setTimeout(() => parseAndValidate(false), 50));
 
@@ -244,7 +195,6 @@
             parseAndValidate(false);
         }
 
-        // Thuật toán tối ưu 2 giai đoạn: Ưu tiên triệt tiêu độ lệch nội bộ vế, sau đó ghép pha
         function calculate() {
             const nl = parseInt(document.getElementById('nl-input').value);
             const nr = parseInt(document.getElementById('nr-input').value);
@@ -252,19 +202,15 @@
             let totalLeftNeeded = 3 * nl;
             let totalRightNeeded = 3 * nr;
 
-            // Sắp xếp tụ giảm dần (LPT)
             let caps = [...parsedCaps].sort((a, b) => b.val - a.val);
 
-            // Bước 1: Chia toàn bộ tụ thành 2 nhóm (Vế Trái & Vế Phải) sao cho tổng điện dung xấp xỉ nhau
             let bestLeftGroup = [];
             let bestRightGroup = [];
             let minGroupDiff = Infinity;
 
-            // Thử các cách kết hợp gom nhóm
             for (let trial = 0; trial < 200; trial++) {
                 let shuffled = [...caps];
                 if (trial > 0) {
-                    // Xáo trộn nhẹ để tìm kiếm đa điểm
                     for (let i = shuffled.length - 1; i > 0; i--) {
                         let j = Math.floor(Math.random() * (i + 1));
                         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -275,7 +221,6 @@
                 let rightGroup = [];
                 let sumL = 0, sumR = 0;
 
-                // Greedy phân phối
                 for (let c of shuffled) {
                     if (leftGroup.length < totalLeftNeeded && (rightGroup.length >= totalRightNeeded || sumL <= sumR)) {
                         leftGroup.push(c);
@@ -294,19 +239,14 @@
                 }
             }
 
-            // Bước 2: Tối ưu nội bộ 3 nhánh Vế Trái
             let leftBranches = optimizeThreeBranches(bestLeftGroup, nl);
-            // Bước 3: Tối ưu nội bộ 3 nhánh Vế Phải
             let rightBranches = optimizeThreeBranches(bestRightGroup, nr);
-
-            // Bước 4: Ghép cặp 3 nhánh Trái và 3 nhánh Phải vào 3 pha A, B, C sao cho tổng điện dung mỗi pha cân bằng nhất
             let phases = assignPhases(leftBranches, rightBranches);
 
             renderResults(phases);
         }
 
         function optimizeThreeBranches(groupCaps, itemsPerBranch) {
-            // Gom nhóm groupCaps thành 3 nhánh sao cho tổng điện dung mỗi nhánh gần bằng nhau nhất
             let sorted = [...groupCaps].sort((a, b) => b.val - a.val);
             let bestBranches = [[], [], []];
             let minDev = Infinity;
@@ -317,7 +257,6 @@
 
                 let pool = [...sorted];
                 if (trial > 0) {
-                    // Xáo trộn bớt các phần tử có giá trị gần nhau
                     for (let i = pool.length - 1; i > 0; i--) {
                         if (Math.random() < 0.3) {
                             let j = Math.floor(Math.random() * pool.length);
@@ -326,7 +265,6 @@
                     }
                 }
 
-                // LPT assignment
                 for (let item of pool) {
                     let minIdx = 0;
                     let minSum = Infinity;
@@ -340,7 +278,6 @@
                     sums[minIdx] += item.val;
                 }
 
-                // Local Search Swap sâu hơn để ép độ lệch nhỏ nhất
                 let improved = true;
                 let iter = 0;
                 while (improved && iter < 50) {
@@ -387,11 +324,9 @@
         }
 
         function assignPhases(leftBranches, rightBranches) {
-            // Tính tổng điện dung của từng nhánh trái và phải
             let leftSums = leftBranches.map(b => b.reduce((s, x) => s + x.val, 0));
             let rightSums = rightBranches.map(b => b.reduce((s, x) => s + x.val, 0));
 
-            // Sắp xếp thứ tự các nhánh trái (từ lớn đến nhỏ) và phải (từ nhỏ đến lớn) để ghép bù trừ tối ưu cho 3 pha A, B, C
             let lIndices = [0, 1, 2].sort((i, j) => leftSums[j] - leftSums[i]);
             let rIndices = [0, 1, 2].sort((i, j) => rightSums[i] - rightSums[j]);
 
@@ -420,7 +355,6 @@
             lastResultData = phases;
             document.getElementById('results-section').classList.remove('hidden');
 
-            // Tính thống kê Vế Trái
             let leftTotals = phases.map(p => p.leftSum);
             let maxL = Math.max(...leftTotals);
             let minL = Math.min(...leftTotals);
@@ -431,7 +365,6 @@
             document.getElementById('left-diff').innerText = `${diffL.toFixed(3)} µF`;
             document.getElementById('left-std').innerText = stdL.toFixed(4);
 
-            // Tính thống kê Vế Phải
             let rightTotals = phases.map(p => p.rightSum);
             let maxR = Math.max(...rightTotals);
             let minR = Math.min(...rightTotals);
@@ -442,7 +375,6 @@
             document.getElementById('right-diff').innerText = `${diffR.toFixed(3)} µF`;
             document.getElementById('right-std').innerText = stdR.toFixed(4);
 
-            // Bảng tổng hợp
             let tbody = document.getElementById('branch-table-body');
             tbody.innerHTML = '';
             phases.forEach(p => {
@@ -457,7 +389,6 @@
                 tbody.appendChild(tr);
             });
 
-            // Chi tiết từng nhánh
             let container = document.getElementById('branch-details-container');
             container.innerHTML = '';
             phases.forEach(p => {
