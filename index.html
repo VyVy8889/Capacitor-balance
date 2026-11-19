@@ -98,7 +98,7 @@
                 </div>
 
                 <!-- Bảng chi tiết 6 nhánh -->
-                <div class="overflow-x-auto mb-4">
+                <div class="overflow-x-auto mb-6">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
                             <tr class="border-b border-slate-700 text-slate-400">
@@ -113,18 +113,6 @@
                             <!-- JS render -->
                         </tbody>
                     </table>
-                </div>
-
-                <!-- Dòng không cân bằng tổng kết chuyên nghiệp -->
-                <div id="unbalance-summary-box" class="bg-slate-900/90 border border-cyan-500/40 rounded-xl p-4 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-xs">
-                    <div>
-                        <span class="font-bold text-cyan-400 uppercase tracking-wider block mb-0.5">⚡ Đánh giá bảo vệ mất cân bằng (Unbalance Analysis)</span>
-                        <span id="unbalance-desc" class="text-slate-300">Độ lệch dòng trung tính giữa các nhánh / pha ở mức tối ưu.</span>
-                    </div>
-                    <div class="bg-cyan-950/60 border border-cyan-800/60 px-3 py-2 rounded-lg text-right">
-                        <span class="text-slate-400 block text-[10px]">Độ lệch Max Pha (&Delta;C):</span>
-                        <span id="max-phase-diff" class="text-sm font-bold text-emerald-400">0.000 &mu;F</span>
-                    </div>
                 </div>
 
                 <!-- Danh sách bình chi tiết từng nhánh -->
@@ -386,20 +374,6 @@
 
             document.getElementById('right-diff').innerText = `${diffR.toFixed(3)} µF`;
             document.getElementById('right-std').innerText = stdR.toFixed(4);
-
-            // Tính chênh lệch giữa các pha tổng
-            let phaseTotals = phases.map(p => p.totalSum);
-            let maxPhaseDiff = Math.max(...phaseTotals) - Math.min(...phaseTotals);
-            document.getElementById('max-phase-diff').innerText = `${maxPhaseDiff.toFixed(3)} µF`;
-
-            let unbalanceDesc = document.getElementById('unbalance-desc');
-            if (maxPhaseDiff < 0.1) {
-                unbalanceDesc.innerHTML = `Độ lệch pha cực nhỏ (<span class="text-emerald-400 font-semibold">0.1 µF</span>). Dòng không cân bằng giữa các pha và dòng qua bảo vệ trung tính đạt trạng thái <b>tối ưu hoàn hảo</b>.`;
-            } else if (maxPhaseDiff < 0.5) {
-                unbalanceDesc.innerHTML = `Độ lệch pha ở mức an toàn (<span class="text-cyan-400 font-semibold">&lt; 0.5 µF</span>). Đảm bảo vận hành ổn định trong giới hạn tiêu chuẩn kỹ thuật.`;
-            } else {
-                unbalanceDesc.innerHTML = `Cảnh báo: Độ lệch pha hơi cao (<span class="text-amber-400 font-semibold">&gt; 0.5 µF</span>). Kiểm tra lại phân phối bình tụ giữa các vế.`;
-            }
 
             let tbody = document.getElementById('branch-table-body');
             tbody.innerHTML = '';
